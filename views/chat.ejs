@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Dropdown Button */
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            bottom: 20px;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: blue;
+        }
+
+
+        .talk-bubble {
+            margin: 20px;
+            display: inline-block;
+            position: relative;
+            min-width: 150px;
+            height: auto;
+            background-color: transparent;
+        }
+
+        .triangle.left-top:after {
+            content: ' ';
+            position: absolute;
+            width: 0;
+            height: 0;
+            left: -8px;
+            right: auto;
+            top: 0px;
+            z-index: -11;
+            bottom: auto;
+            border: 22px solid;
+            border-color: #f5f5f5 transparent transparent transparent;
+        }
+
+        .triangle.right-top:before {
+            content: ' ';
+            position: absolute;
+            width: 0;
+            height: 0;
+            left: auto;
+            right: -8px;
+            top: 0;
+            z-index: -11;
+            bottom: auto;
+            border: 32px solid;
+            border-color: rgba(172, 223, 135, 1) transparent transparent transparent;
+        }
+
+        .talktext {
+            /* color: white; */
+            /* padding: 1em; */
+            z-index: 1;
+        }
+
+        .dropdown-item:hover {
+            outline: none;
+            background: #fff;
+            cursor: default;
+        }
+
+        .dropdown-item:hover a {
+            cursor: pointer;
+        }
+
+        #cont {
+            position: fixed;
+            bottom: 0px;
+            padding: 15px;
+            left: 0;
+            width: 100vw;
+            background: #f6f6f6;
+        }
+
+        .sendbtn {
+            padding-right: 0;
+            margin-right: 0;
+            position: absolute;
+            top: -20px;
+            left: 5px;
+            background: white;
+            border: none;
+        }
+
+        #msg {
+            min-width: 20%;
+            padding-left: 30px;
+            max-height: 400px;
+            resize: horizontal;
+
+        }
+
+
+
+        #preview {
+            display: none;
+            text-align: justify;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="chat-container container">
+        <header class="chat-header">
+            <h1>ChatCord</h1>
+            <!-- <p id="id"><%=name %></p>
+            <p id="room"><%=room%></p> -->
+            <a href="index.html" class="btn">Leave Room</a>
+        </header>
+        <main class="chat-main">
+            <div class="chat-sidebar">
+                <!-- <h3><i class="fas fa-comments"></i> Room Name:</h3> -->
+                <h2 id="room-name"></h2>
+                <div style="font-size:1.2em;" id="name"></div>
+
+
+                <ul id="users"></ul>
+            </div>
+
+            <div class="chat-messa"></div>
+            <div class="chat-messages"></div>
+            <center>
+                <div class="chat-begin"></div>
+                <div class="col-lg-12 d-flex flex-row-reverse" id="ppre">
+                    <div class=" col-xs-5 talk-bubble triangle right-top"
+                        style="background:rgba(172, 223, 135,1);padding:2px 5px 1px 5px;border-radius:5px;padding:5px;margin:8px;padding-left:8px;padding-right:8px;"
+                        id="preview">
+                        <div class="talktext">
+                            <p class='text' id='textpp' style="padding:0;margin:0"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </center>
+        </main>
+        <div class="chat-form-container" id="cont">
+            <form id="chat-form">
+                <div class="dropdown dropup">
+                    <button class="sendbtn"><i class="far fa-smile-beam"></i></button>
+                    <div class="dropdown-content">
+                        <p class="dropdown-item">
+                            <%  var nn=1;var n=0;emo.forEach(emoji => { %>
+                            <a id='<%=emoji.dec%>;' onclick='aa(this.id)'>
+                                <% if(n==7){ %><br>&#<%= emoji.dec %>;<%  ; n=1;nn++;}else{%>&#<%= emoji.dec %>;<% ;n++;nn++;} %></a>
+                            <% }); %></p>
+                    </div>
+
+
+                </div>
+                <input id="msg" placeholder="Enter Message" required autocomplete="off" oninput="pre()">
+                <input type="submit" id="send" style="color:#6da7a7" class="btn" value="send"><i
+                    class="fas fa-info-circle"></i>
+
+
+            </form>
+        </div>
+    </div>
+    <script>
+        function pre() {
+
+            document.getElementById('preview').style.display = "block";
+            document.getElementById(
+                'preview').style.opacity = "0.5";
+            document.getElementById('preview').style.textalign =
+                "left";
+            document.getElementById('textpp').innerHTML = document.getElementById("msg").value;
+            if (document.getElementById('textpp').innerHTML == "") {
+                document.getElementById('preview').style.display = "none";
+
+
+
+
+
+            }
+
+
+            //    var abc= document.getElementById('textpp');
+            //    abc.innerHTML =abc.innerHTML+ "\n";
+            //     document.getElementById("msg").value = document.getElementById('textpp').innerHTML;
+
+
+
+        }
+
+
+        $(document).ready(function () {
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
+
+        var starttime;
+        var curKey;
+        /* $('#msg').keyup(function (e){ */
+
+        $('#msg').keydown(function (e) {
+            if (curKey != e.which && e.keyCode == 13) {
+                var d = new Date();
+                starttime = d.getTime();
+                $('#down-time').text(starttime);
+                curKey = e.which;
+            }
+        });
+
+        $('#msg').keyup(function (e) {
+            if (e.keyCode == 13) {
+                var d = new Date();
+                var endTime = d.getTime();
+                $('#up-time').text(endTime);
+                const timeTaken = endTime - starttime;
+                //   $('#result-val').text(timeTaken / 1000);
+                const tttt = Math.round(timeTaken / 1000);
+                // alert(tttt);
+                curKey = null;
+                if (tttt >= 1) {
+                    var abc = document.getElementById('textpp');
+                    abc.innerHTML = abc.innerHTML + "<br>";
+                    document.getElementById("msg").value = document.getElementById('textpp').innerHTML;
+
+                }
+                if (tttt < 1) {
+                    document.getElementById('preview').style.display = "none";
+                    document.getElementById('send').click();
+                }
+            }
+        });
+
+
+
+        function aa(iddd) {
+            // alert(iddd);
+            document.getElementById("msg").focus();
+            var x = ' &#' + iddd;
+            // alert(x);
+            document.getElementById('msg').value += x;
+            ff = ff + "aaa";
+
+
+        }
+
+
+
+
+
+
+        $(document).ready(function () {
+            var $form = $('form');
+            $form.submit(function () {
+                $.post($(this).attr('action'), $(this).serialize(), function (response) {
+                    // do something here on success
+                }, 'json');
+                return false;
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+        integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous">
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form action="/welcome" id="form" method="get" style="display:hidden;">
+        <input type="hidden" name="lid" id="lid" value="<%=id%>" required>
+        <input type="hidden" name="username" id="name" value="<%=name%>" required>
+        <input type="hidden" name="room" id="room" value="<%=room%>" required>
+
+    </form>
+
+    <button onclick="forward()"> ENTER</button>
+    <script>
+        function forward() {
+            document.getElementById("form").submit();
+        }
+    </script>
+</body>
+
+</html>
